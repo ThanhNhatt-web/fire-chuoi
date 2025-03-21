@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Điểm Danh Mỗi Ngày</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #1a1a1a;
+            color: white;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        .counter {
+            font-size: 50px;
+            margin: 20px 0;
+        }
+        .flame {
+            font-size: 80px;
+            animation: flicker 0.8s infinite alternate;
+        }
+        @keyframes flicker {
+            0% { opacity: 0.8; transform: scale(1); }
+            100% { opacity: 1; transform: scale(1.1); }
+        }
+        button {
+            background-color: orange;
+            border: none;
+            padding: 15px 30px;
+            font-size: 20px;
+            cursor: pointer;
+            border-radius: 10px;
+            transition: transform 0.2s, background-color 0.2s;
+        }
+        button:hover {
+            background-color: darkorange;
+            transform: scale(1.1);
+        }
+        .animate {
+            animation: bounce 0.5s;
+        }
+        @keyframes bounce {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Điểm Danh Mỗi Ngày</h1>
+        <div class="flame" id="flame">🔥</div>
+        <div class="counter" id="count">0</div>
+        <button id="checkInButton" onclick="diemDanh()">Điểm Danh</button>
+    </div>
+    
+    <script>
+        function getToday() {
+            return new Date().toLocaleDateString();
+        }
+        
+        let lastCheckIn = localStorage.getItem("lastCheckIn");
+        let count = localStorage.getItem("checkInCount") || 0;
+        
+        if (lastCheckIn !== getToday()) {
+            count++;
+            localStorage.setItem("checkInCount", count);
+            localStorage.setItem("lastCheckIn", getToday());
+        }
+        
+        document.getElementById("count").innerText = count;
+        
+        function diemDanh() {
+            let button = document.getElementById("checkInButton");
+            let flame = document.getElementById("flame");
+            button.classList.add("animate");
+            flame.classList.add("animate");
+            setTimeout(() => {
+                button.classList.remove("animate");
+                flame.classList.remove("animate");
+            }, 500);
+            alert("Bạn đã điểm danh hôm nay! 🔥 Hãy quay lại vào ngày mai.");
+        }
+    </script>
+</body>
+</html>
